@@ -1,3 +1,4 @@
+import { PDFRenderer } from "@/components/pdf/renderer";
 import { PDFSelector } from "@/components/pdf/selector";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -39,7 +40,7 @@ function App() {
         </div>
         <div className="col-span-2 flex justify-center items-center">
           {!!currentFile ? (
-            <p>File selected: {currentFile.name}</p>
+            <PDFRenderer file={currentFile} />
           ) : (
             <p className="text-lg text-center">
               <strong className="font-semibold">No file selected</strong>
