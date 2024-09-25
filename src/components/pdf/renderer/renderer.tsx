@@ -1,8 +1,11 @@
+import { Loader2 } from "lucide-react";
 import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api";
-import { useState, type FC } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
+import { type FC } from "react";
+import { Document, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
+import { PDFReaderContent } from "./content";
+import { Rect } from "./content/page/content";
 
 const options = {
   standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts`,
@@ -10,22 +13,19 @@ const options = {
 
 export type PDFRendererProps = {
   file: File;
+  rects?: Rect[][];
 };
 
-export const PDFRenderer: FC<PDFRendererProps> = ({ file }) => {
-  const [numPages, setNumPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-
+export const PDFRenderer: FC<PDFRendererProps> = ({ file, rects }) => {
   return (
-    <Document
-      file={file}
-      options={options}
-      onLoadSuccess={(props) => {
-        setNumPages(props.numPages);
-        setCurrentPage(1);
-      }}
-    >
-      <Page pageNumber={currentPage} />
-    </Document>
+    <div className="flex-1 flex flex-col gap-1">
+      <Document
+        file={file}
+        options={options}
+        loading={<Loader2 className="w-10 h-10 animate-spin" />}
+      >
+        <PDFReaderContent rects={rects} />
+      </Document>
+    </div>
   );
 };
