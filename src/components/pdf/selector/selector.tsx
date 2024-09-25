@@ -24,7 +24,9 @@ export const PDFSelector: FC<PDFSelectorProps> = ({ onSelected }) => {
         <Button
           onClick={() => {
             const files = pdfSelectorRef.current?.files;
-            if (files) onSelected(files);
+            if (files) {
+              onSelected(files);
+            }
           }}
           type="submit"
         >
